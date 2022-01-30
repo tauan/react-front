@@ -1,0 +1,148 @@
+:root {
+  --white: #fff;
+  --primaryColor: #2d5b45;
+  --ligthColorGreen: #edffe4;
+  --red: #ea2027;
+  --gray: #e1e1e1;
+  --grayDark: #707070;
+  --darkGreen: #1a3f2d;
+  --secondaryColor: #548882;
+  --backgroundDegrade: linear-gradient(
+    180deg,
+    #548882 0%,
+    rgb(92, 154, 98) 100%
+  );
+}
+
+@keyframes notification {
+  0% {
+    height: 0;
+    padding: 0;
+  }
+  5% {
+    height: auto;
+    padding: 15px 30px;
+  }
+  95% {
+    height: auto;
+    padding: 15px 30px;
+  }
+  100% {
+    height: 0;
+    padding: 0;
+  }
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  list-style: none;
+}
+
+table,
+tr {
+  width: 100%;
+}
+
+th {
+  padding: 7px 20px;
+  border-left: 1px solid #bbb;
+  border-bottom: 1px solid #bbb;
+}
+
+td {
+  border: 1px solid #eee;
+  padding: 7px 20px;
+}
+
+th:first-child {
+  border-left: 0;
+}
+
+th:hover {
+  cursor: pointer;
+  background-color: #ddd;
+}
+
+.th-opcoes {
+  width: 120px;
+}
+
+.th-opcoes:hover {
+  background-color: transparent;
+  cursor: default;
+}
+
+tr:nth-child(2n) {
+  background-color: #eee;
+}
+
+tr:nth-child(2n) td {
+  border: 1px solid #fff;
+}
+
+tr:nth-child(2n) td:first-child {
+  border-left: 0;
+}
+
+a {
+  cursor: pointer;
+}
+tr:hover {
+  background-color: #ccc;
+}
+
+button svg {
+  width: 20px;
+  height: 20px;
+}
+
+input[type="text"],
+[type="number"],
+[type="date"],
+.custonSelect {
+  padding: 7px;
+  border-radius: 5px;
+  border: 1.5px solid #777;
+  color: #333;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+input[type="text"]:hover,
+[type="number"]:hover {
+  border-color: #0d6efd;
+}
+
+.alertMessage {
+  position: absolute;
+  overflow: hidden;
+  top: 20px;
+  right: 20px;
+  height: auto;
+  padding: 15px 30px;
+  border-radius: 5px;
+  display: block;
+  color: #fff;
+}
+
+.success {
+  background-color: #04aa6d;
+}
+
+.error {
+  background-color: #831a1a;
+}

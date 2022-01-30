@@ -1,0 +1,23 @@
+.container {
+    padding: 20px;
+}
+.formContainer {
+    margin: 20px 10px;
+}
+.btn {
+    display: flex;
+    width: 150px;
+}
+
+.buttonsContainer {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 0;
+}
+
+.buttonsContainer button {
+    margin-left: 15px;
+}
