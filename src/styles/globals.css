@@ -110,6 +110,11 @@ button svg {
   height: 20px;
 }
 
+th svg {
+  width: 20px;
+  height: 20px;
+}
+
 input[type="text"],
 [type="number"],
 [type="date"],
@@ -125,6 +130,12 @@ input[type="text"],
 input[type="text"]:hover,
 [type="number"]:hover {
   border-color: #0d6efd;
+}
+
+input:focus {
+  border: 1px solid #0d6efd !important;
+  outline-offset: 0 !important;
+  outline-style: none !important;
 }
 
 .alertMessage {
@@ -145,4 +156,60 @@ input[type="text"]:hover,
 
 .error {
   background-color: #831a1a;
+}
+
+.constainer-painel {
+  padding: 10px;
+  display: flex;
+  font-weight: bold;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.constainer-painel .painel {
+  display: flex;
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
+  margin-left: 25px;
+}
+
+.constainer-painel .painel:hover {
+  margin-top: 1px;
+}
+
+.constainer-painel .painel .painel-count {
+  padding: 25px;
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.constainer-painel .painel .painel-title {
+  padding: 25px;
+  background-color: #fff;
+  background-color: #88a7d4;
+  color: #fff;
+}
+
+.logo {
+  width: 200px;
+  height: 200px;
+  border-radius: 155px;
+  border: 3px solid #fff;
+  box-shadow: 2px 2px 2px #ccc;
+  background-image: url(https://media-exp1.licdn.com/dms/image/C560BAQEW6qJHF0d-3A/company-logo_200_200/0/1630673267296?e=1651708800&v=beta&t=q5jfhDchrp27mtuAtEC5wdpp4goAtINb72MHTtjDvS4);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-right: 30px;
+}
+
+.header-container {
+  display: flex;
+  font-size: 30px;
+  font-weight: bold;
+  color: #555;
+  align-items: center;
+  margin: 15px 0;
+  border-right: 5px solid #0d6efd;
 }

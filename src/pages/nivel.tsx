@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import AlertMessage from "../components/AlertMessage";
+import AlertMessage from "../core/AlertMessage";
 import NivelForm, { INivel } from "../components/NivelForm";
-import Table from "../components/Table";
+import BaseTable from "../core/BaseTable";
 import { BaseService } from "../services/base-service";
 
 export default function Nivel() {
@@ -15,6 +15,12 @@ export default function Nivel() {
       label: "Nível",
       value: "nivel",
     },
+    {
+      label: "DEVS",
+      value: "desenvolvedores",
+      type: "array",
+      width: "50px",
+    },
   ];
   const defaultStateRows = {
     nivel: "",
@@ -26,6 +32,7 @@ export default function Nivel() {
   const [resourcesSize, setResourcesSize] = useState(0);
   const [resourceSelected, setResourceSelected] =
     useState<INivel>(defaultStateRows);
+  const [query, setQuery] = useState("");
 
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<"success" | "error">(
@@ -42,7 +49,7 @@ export default function Nivel() {
 
   useEffect(() => {
     searchResources();
-  }, [pageSize, pageNumber]);
+  }, [pageSize, pageNumber, sortField, sortOrder, query]);
 
   useEffect(() => {
     if (!register) searchResources();
@@ -50,13 +57,14 @@ export default function Nivel() {
 
   const searchResources = () => {
     let params: Record<string, string | number> = {};
-
+    params["relations"] = '["desenvolvedores"]';
     if (sortOrder) params["sortOrder"] = sortOrder;
     if (sortField) params["sortField"] = sortField;
     if (showDeleted) params["showDeleted"] = showDeleted;
     if (pageSize) params["pageSize"] = pageSize;
     if (offset) params["offset"] = offset;
     if (pageNumber) params["pageNumber"] = pageNumber;
+    if (query && query !== "") params["query"] = query;
 
     service.count(params).then((response) => {
       setResourcesSize(+response);
@@ -101,7 +109,7 @@ export default function Nivel() {
       <AlertMessage message={message} type={messageType} />
 
       {!register && (
-        <Table
+        <BaseTable
           resources={list}
           rows={rows}
           resourcesSize={resourcesSize}
@@ -122,6 +130,8 @@ export default function Nivel() {
           setRegister={setRegister}
           setResourceSelected={setResourceSelected}
           deleteFunction={deleteDto}
+          search={query}
+          setSearch={setQuery}
         />
       )}
       {register && (

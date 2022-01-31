@@ -19,7 +19,7 @@ export default function Nav({ pathRoute }) {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <a className="navbar-brand" href="#">
-        ♥ GAZIN TECH ♥
+        ~ GAZIN TECH ♥
       </a>
       <button
         className="navbar-toggler"

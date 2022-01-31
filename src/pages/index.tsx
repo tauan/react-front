@@ -1,12 +1,9 @@
 import Link from "next/link";
+import Home from "../components/Home";
 
 
-export default function Home() {
+export default function Index() {
   return (
-    <Link href="/desenvolvedor">
-          <a className="nav-item nav-link">
-            Desenvolvedor
-          </a>
-          </Link>
+    <Home />
   );
 }

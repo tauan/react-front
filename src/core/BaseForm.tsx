@@ -24,6 +24,7 @@ export default function BaseForm(props: BaseFormProps) {
               type="button"
               className="btn btn-primary"
               onClick={props.submitFunction}
+              disabled={!props.valid}
             >
               <span className="h5">{iconCheck} </span> Salvar
             </button>
@@ -41,4 +42,5 @@ interface BaseFormProps {
   resource: Record<string, any>;
   cancelFunction: void | any;
   submitFunction: void | any;
+  valid: boolean | undefined;
 }

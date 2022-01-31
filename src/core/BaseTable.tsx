@@ -2,7 +2,7 @@ import ConvertDateToString from "../../utils/dateToString";
 import styles from "../styles/Table.module.css";
 import { iconEdit, iconDelete } from "./Icons";
 
-export default function Table(props?: IProps) {
+export default function BaseTable(props?: IProps) {
   const pages: number[] = [];
 
   for (let i = 1; i < props.resourcesSize / props.pageSize + 1; i++) {
@@ -27,9 +27,30 @@ export default function Table(props?: IProps) {
     props.deleteFunction(dto);
   };
 
+  const orderBy = (row) => {
+    const { value } = row;
+    if (!value) return;
+
+    if (value === props.sortField) {
+      props.setSortOrder(props.sortOrder === "ASC" ? "DESC" : "ASC");
+    } else {
+      props.setSortOrder("ASC");
+      props.setSortField(value);
+    }
+  };
+
   const generateHeaders = () => {
     return props.rows.map((row) => {
-      return <th key={row.value}>{row.label}</th>;
+      return (
+        <th
+          key={row.value}
+          onClick={() => {
+            orderBy(row);
+          }}
+        >
+          {row.label}
+        </th>
+      );
     });
   };
 
@@ -40,12 +61,14 @@ export default function Table(props?: IProps) {
           {props.rows.map((row) => {
             return (
               <td
-                key={resource[row.value]}
+                key={`${resource[row.value]}${resource.id}`}
                 style={row.width ? { width: row.width } : {}}
               >
-                {row.type === "date"
-                  ? ConvertDateToString(resource[row.value])
-                  : resource[row.value]}
+                {row.type &&
+                  row.type === "date" &&
+                  ConvertDateToString(resource[row.value])}
+                {row.type && row.type === "array" && resource[row.value].length}
+                {!row.type && resource[row.value]}
               </td>
             );
           })}
@@ -72,10 +95,6 @@ export default function Table(props?: IProps) {
     props.setRegister(true);
   };
 
-  const handlerSearch = (search) => {
-    console.log(search);
-  };
-
   const toglePageSize = (size) => {
     props.setPageSize(size);
     props.setPageNumber(1);
@@ -93,7 +112,8 @@ export default function Table(props?: IProps) {
                   type="text"
                   className="form-control"
                   placeholder="Insira sua busca"
-                  onChange={(e) => handlerSearch(e.target.value)}
+                  value={props.search}
+                  onChange={(e) => props.setSearch(e.target.value)}
                 />
               </div>
             </div>
@@ -174,7 +194,7 @@ export default function Table(props?: IProps) {
 
 interface IProps {
   title: string;
-  resources: Record<string, string | number>[];
+  resources: Record<string, string | number | any>[];
   resourcesSize: number;
   rows: { value: string; label: string; type?: string; width?: string }[];
   buttonLabel?: string;
@@ -193,4 +213,6 @@ interface IProps {
   setRegister: void | any;
   setResourceSelected: void | any;
   deleteFunction: void | any;
+  search: string;
+  setSearch: void | any;
 }

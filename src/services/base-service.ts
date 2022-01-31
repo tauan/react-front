@@ -1,5 +1,3 @@
-import { useContext } from "react";
-
 export class BaseService<T> {
   constructor(private endpoint: T) {}
 
@@ -42,14 +40,17 @@ export class BaseService<T> {
   }
 
   async save(dto) {
-    return await fetch(`http://localhost:4000/${this.endpoint}`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dto),
-    })
+    return await fetch(
+      `http://localhost:4000/${this.endpoint}${dto?.id ? "/" + dto?.id : ""}`,
+      {
+        method: dto?.id ? "PATCH" : "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dto),
+      }
+    )
       .then((response) => response.json())
       .catch((err) => {})
       .then((response) => {

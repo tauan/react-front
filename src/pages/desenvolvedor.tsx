@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import AlertMessage from "../components/AlertMessage";
+import AlertMessage from "../core/AlertMessage";
 import DesenvolvedorForm, {
   IDesenvolvedor,
 } from "../components/DesenvolvedorForm";
-import Table from "../components/Table";
+import BaseTable from "../core/BaseTable";
 import { BaseService } from "../services/base-service";
 
 export default function Desenvolvedor() {
@@ -51,6 +51,9 @@ export default function Desenvolvedor() {
   const [resourceSelected, setResourceSelected] =
     useState<IDesenvolvedor>(defaultStateRows);
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState<"success" | "error">(
+    "success"
+  );
 
   /* Params */
   const [sortOrder, setSortOrder] = useState("ASC");
@@ -59,10 +62,11 @@ export default function Desenvolvedor() {
   const [pageSize, setPageSize] = useState(5);
   const [offset, setOffset] = useState(undefined);
   const [pageNumber, setPageNumber] = useState(1);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     searchResources();
-  }, [pageSize, pageNumber]);
+  }, [pageSize, pageNumber, sortField, sortOrder, query]);
 
   useEffect(() => {
     if (!register) searchResources();
@@ -77,6 +81,7 @@ export default function Desenvolvedor() {
     if (pageSize) params["pageSize"] = pageSize;
     if (offset) params["offset"] = offset;
     if (pageNumber) params["pageNumber"] = pageNumber;
+    if (query && query !== "") params["query"] = query;
 
     service.count(params).then((response) => {
       setResourcesSize(+response);
@@ -87,22 +92,40 @@ export default function Desenvolvedor() {
   };
 
   const deleteDto = (dto) => {
-    searchResources();
-    setMessage(`Item #${dto.id} desativado com sucesso`);
-    setTimeout(() => {
-      setMessage(undefined);
-    }, 5000);
+    if (dto && dto?.id) {
+      service
+        .softDelete(dto)
+        .then((response) => {
+          searchResources();
+          if (response && !response.error) {
+            sendMessage({
+              message: `Desenvolvedor #${dto.id} desativado com sucesso`,
+            });
+          } else {
+            sendMessage({
+              message: `Erro ao desativar o desenvolvedor #${dto.id}: ${response.error}`,
+              type: "error",
+            });
+          }
+        })
+        .catch((err) => {});
+    }
   };
 
   const setDefaultResource = () => {
     setResourceSelected(defaultStateRows);
   };
 
+  const sendMessage = (props) => {
+    setMessageType(props.type ?? "success");
+    setMessage(props.message);
+  };
+
   return (
     <>
-      <AlertMessage message={message} />
+      <AlertMessage message={message} type={messageType} />
       {!register && (
-        <Table
+        <BaseTable
           resources={list}
           rows={rows}
           resourcesSize={resourcesSize}
@@ -123,6 +146,8 @@ export default function Desenvolvedor() {
           setRegister={setRegister}
           setResourceSelected={setResourceSelected}
           deleteFunction={deleteDto}
+          search={query}
+          setSearch={setQuery}
         />
       )}
       {register && (
@@ -135,6 +160,7 @@ export default function Desenvolvedor() {
             setRegister(false);
           }}
           service={service}
+          sendMessage={sendMessage}
         />
       )}
     </>
