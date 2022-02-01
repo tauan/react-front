@@ -1,9 +1,10 @@
 export class BaseService<T> {
+  host = process.env.API_HOST
   constructor(private endpoint: T) {}
 
   async count(params?) {
     return await fetch(
-      `http://localhost:4000/${this.endpoint}/count${this.getQueryString(
+      `${this.host}${this.endpoint}/count${this.getQueryString(
         params
       )}`,
       params
@@ -23,7 +24,7 @@ export class BaseService<T> {
 
   async findAll(params?) {
     return await fetch(
-      `http://localhost:4000/${this.endpoint}${this.getQueryString(params)}`
+      `${this.host}${this.endpoint}${this.getQueryString(params)}`
     )
       .then((response) => response.json())
       .catch((err) => {
@@ -41,7 +42,7 @@ export class BaseService<T> {
 
   async save(dto) {
     return await fetch(
-      `http://localhost:4000/${this.endpoint}${dto?.id ? "/" + dto?.id : ""}`,
+      `${this.host}${this.endpoint}${dto?.id ? "/" + dto?.id : ""}`,
       {
         method: dto?.id ? "PATCH" : "POST",
         headers: {
@@ -64,7 +65,7 @@ export class BaseService<T> {
 
   async softDelete(dto) {
     if (dto?.id) {
-      return await fetch(`http://localhost:4000/${this.endpoint}/${dto.id}`, {
+      return await fetch(`${this.host}${this.endpoint}/${dto.id}`, {
         method: "DELETE",
         body: JSON.stringify(dto),
       }).then((response) => response.json());
