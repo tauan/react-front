@@ -1,5 +1,5 @@
 export class BaseService<T> {
-  host = process.env.API_HOST
+  host = process.env.NEXT_PUBLIC_API_HOST
   constructor(private endpoint: T) {}
 
   async count(params?) {

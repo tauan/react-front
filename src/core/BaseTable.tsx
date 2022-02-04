@@ -28,8 +28,8 @@ export default function BaseTable(props?: IProps) {
   };
 
   const orderBy = (row) => {
-    const { value } = row;
-    if (!value) return;
+    const { value, type } = row;
+    if (!value || type === "array") return;
 
     if (value === props.sortField) {
       props.setSortOrder(props.sortOrder === "ASC" ? "DESC" : "ASC");
